@@ -26,9 +26,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     df_list = []
     for file_name in csv_files:
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_name)
-        with blob_client.download_blob() as download_stream:
-            df = pd.read_csv(download_stream)
-            df_list.append(df)
+        blob_data = blob_client.download_blob().readall() 
+        df = pd.read_csv(io.BytesIO(blob_data))
+        df_list.append(df)
 
     merged_df = pd.concat(df_list)
 
