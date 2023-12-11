@@ -14,7 +14,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
     ## BLOB入出力先の設定
     container_name = "scrapefile"
-    blob_name_in = "dashboard_motive/raw/scrape/"
+    blob_name_in = "dashboard_motive/raw/"
     blob_name_out = "dashboard_motive/modify/merge/motive_modify_mergefile.csv"
 
     ## レビューデータ取得
