@@ -18,17 +18,18 @@ def review_diff(merge_data):
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
     # BLOB入出力先の設定
     container_name = "scrapefile"
-    blob_name_diff_out = "dashboard_motive/diff/motive_modify_difffile.csv"
-    blob_name_merge_out = "dashboard_motive/merge/motive_modify_mergefile.csv"
+    blob_name_diff_out = "dashboard_motive/modify/diff/motive_modify_difffile.csv"
+    blob_name_merge_out = "dashboard_motive/modify/merge/motive_modify_mergefile.csv"
 
     # 2.差分・一括のファイル出力処理
-    try:
-        # 過去レビューデータの存在チェック
-        blob_client = blob_service_client.get_blob_client(container=container_name, blob=directory)
+    # 過去レビューデータの存在チェック
+    blob_client = blob_service_client.get_blob_client(container=container_name, blob=directory)
+    if blob_client == "" :
 
         # 過去データがある場合
         # 差分実行
         print("差分")
+        logging.info("差分")
         # 過去マスタデータ読み込み
         blob_client_in = blob_service_client.get_blob_client(container=container_name, blob=blob_name_merge_out)
         blob_data = blob_client_in.download_blob()
@@ -58,11 +59,12 @@ def review_diff(merge_data):
         output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_merge_out)
         output_blob_client.upload_blob(union_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True) #マスタ用のデータ
 
-    except Exception as e:
+    else :
         # 過去データがない（初回実行）場合
         # 初回実行
         # レビューIDの採番
         print("一括")
+        logging.info("一括")
         merge_data.insert(0, 'review_id', range(1, 1 + len(merge_data)))
 
         # データをCSVファイルとして出力

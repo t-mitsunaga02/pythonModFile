@@ -14,8 +14,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # 2.ID採番・差分抽出
     diff_data = review_diff(merge_data)
     logging.info("diff:")
-    logging.info(diff_data.df)
-    print(diff_data.df.head())
+    logging.info(diff_data)
+    print(diff_data.head())
 
 
     return func.HttpResponse(
