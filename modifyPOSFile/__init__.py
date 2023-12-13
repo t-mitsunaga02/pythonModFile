@@ -95,7 +95,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             # POS売上ファイルを出力
             output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_sales_out)
-            output_blob_client.upload_blob(single_header_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True)
+            output_blob_client.upload_blob(selected_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True)
 
     return func.HttpResponse(
                 status_code=200
