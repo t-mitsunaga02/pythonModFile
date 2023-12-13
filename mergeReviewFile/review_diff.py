@@ -23,7 +23,7 @@ def review_diff(merge_data):
 
     # 2.差分・一括のファイル出力処理
     # 過去レビューデータの存在チェック
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob=directory)
+    blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_diff_out)
     if blob_client.exists():
 
         # 過去データがある場合
