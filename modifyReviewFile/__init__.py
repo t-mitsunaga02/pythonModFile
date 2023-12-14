@@ -11,7 +11,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
         )
         
-    deployment_name='scrapeReviewDeploy' #This will correspond to the custom name you chose for your deployment when you deployed a model. 
+    deployment_name='gpt4Scrape' #This will correspond to the custom name you chose for your deployment when you deployed a model. 
         
     # Send a completion call to generate an answer
     print('Sending a test completion job')
