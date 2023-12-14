@@ -2,23 +2,30 @@ import logging
 import azure.functions as func
 
 import os
-from openai import AzureOpenAI
+import openai
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    client = AzureOpenAI(
-        api_key=os.getenv("AZURE_OPENAI_KEY"),  
-        api_version="2023-07-01-preview",
-        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-        )
-        
-    deployment_name='gpt4Scrape' #This will correspond to the custom name you chose for your deployment when you deployed a model. 
-        
-    # Send a completion call to generate an answer
-    print('Sending a test completion job')
-    start_phrase = 'ハリネズミの針は再生しますか？'
-    response = client.completions.create(model=deployment_name, prompt=start_phrase, max_tokens=10)
-    print(response.choices[0].text)
-    logging.info(response.choices[0].text)
+    #Note: The openai-python library support for Azure OpenAI is in preview.
+        #Note: This code sample requires OpenAI Python library version 0.28.1 or lower.
+    openai.api_type = "azure"
+    openai.api_version = "2023-07-01-preview"
+    openai.api_key = os.getenv("AZURE_OPENAI_KEY")
+    openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
+
+    message_text = [{"role": "user", "content": "ハリネズミの針は再生しますか？"}]
+
+    completion = openai.ChatCompletion.create(
+    engine="gpt4Scrape",
+    messages = message_text,
+    temperature=0.7,
+    max_tokens=800,
+    top_p=0.95,
+    frequency_penalty=0,
+    presence_penalty=0,
+    stop=None
+    )
+
+    logging.info(completion.choices[0].message['content'])
 
     return func.HttpResponse(
                 status_code=200
