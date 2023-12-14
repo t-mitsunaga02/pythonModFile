@@ -12,7 +12,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     openai.api_key = os.getenv("OPENAI_API_KEY")
     openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
 
-    message_text = [{"role": "user", "content": "Find beachfront hotels in San Diego for less than $300 a month with free breakfast."}]
+    message_text = [{"role": "user", "content": "ハリネズミの針は再生しますか？"}]
 
     completion = openai.ChatCompletion.create(
     engine="gpt4Scrape",
@@ -25,8 +25,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     stop=None
     )
 
-    logging.info(completion)
-
+    logging.info(completion.choices[0].message['content'])
 
     return func.HttpResponse(
                 status_code=200
