@@ -7,7 +7,7 @@ from openai import AzureOpenAI
 def main(req: func.HttpRequest) -> func.HttpResponse:
     client = AzureOpenAI(
         api_key=os.getenv("AZURE_OPENAI_KEY"),  
-        api_version="1106-Preview",
+        api_version="gpt-4",
         azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
         )
         
