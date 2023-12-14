@@ -9,7 +9,8 @@ azure-storage-blob==12.8.0
 azure-identity
 pandas
 openpyxl
-openai==0.28.1
+openai
+AzureOpenAI
 
 requests
 beautifulsoup4
