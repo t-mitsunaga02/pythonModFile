@@ -40,7 +40,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     ]  
 
     response = openai.ChatCompletion.create(
-        engine="gpt-35-turbo-0613", # engine = "deployment_name"
+        engine="scrapeReviewDeploy", # engine = "deployment_name"
         messages=messages,
         functions=functions,
         function_call="auto", 
