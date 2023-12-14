@@ -9,7 +9,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         #Note: This code sample requires OpenAI Python library version 0.28.1 or lower.
     openai.api_type = "azure"
     openai.api_version = "2023-07-01-preview"
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = os.getenv("AZURE_OPENAI_KEY")
     openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
 
     message_text = [{"role": "user", "content": "ハリネズミの針は再生しますか？"}]
