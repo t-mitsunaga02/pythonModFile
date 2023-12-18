@@ -15,8 +15,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     ## BLOB入出力先の設定
     container_name = "scrapefile"
     blob_name_in = "dashboard_KPI/raw/pos/通販POS EXCEL_CUSTOMREPORT_JP_AIRPURIFIER_DAIKIN_JUN23.xlsx"
-    blob_name_master_out = "dashboard_KPI/modify/data/POS_Master.csv"
-    blob_name_sales_out = "dashboard_KPI/modify/data/POS_Sales.csv"
+    blob_name_master_out = "dashboard_KPI/modify/data/KPI_modify_POS_master_file.csv"
+    blob_name_sales_out = "dashboard_KPI/modify/data/KPI_modify_POS_sales_file.csv"
     # 読み込むシートの名前
     sheet_name = 'Hitlist_Item_24 month'
 
