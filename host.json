@@ -1,11 +1,19 @@
 {
   "version": "2.0",
-  "logging": {
-    "applicationInsights": {
-      "samplingSettings": {
-        "isEnabled": true,
-        "excludedTypes": "Request"
+  "functionTimeout": "02:00:00",
+  "extensions": {
+    "queues": {
+      "maxPollingInterval": "02:00:00",
+      "maxDequeueCount": 1
+    },
+    "durableTask": {
+      "hubName": "retry" ,
+      "storageProvider": {
+        "controlQueueVisibilityTimeout": "02:00:00",
+        "workItemQueueVisibilityTimeout": "02:00:00"
       }
+
+      
     }
   },
   "extensionBundle": {

@@ -189,7 +189,7 @@ def scrape_gpt_get():
         reason_list = pickup_elem_from_dictionary(dict=result_dic)
         print(reason_list)
         reasons_list.append(reason_list)
-        time.sleep(20)
+        time.sleep(30)
 
     new_rows =[]
     #元のデータフレームとリストから行を生成し、新しいデータフレームに追加
