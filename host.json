@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "functionTimeout": "-1",
+  "functionTimeout": null,
   "extensions": {
     "queues": {
       "maxPollingInterval": "02:00:00",
