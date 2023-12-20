@@ -1,13 +1,22 @@
 import logging
 import azure.functions as func
 from azure.storage.blob import BlobServiceClient
+import asyncio
 import pandas as pd
 import os
 import io
 import time
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
+async def main(req: func.HttpRequest) -> func.HttpResponse:
 
+    # 非同期で処理を実行
+    asyncio.create_task(long_running_task())
+
+    return func.HttpResponse(
+        status_code=200
+    )
+
+async def long_running_task():
     # 1.POSデータの読み込み
     ## BLOBへの接続
     connect_str = os.getenv("AzureWebJobsStorage")
@@ -21,8 +30,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # 読み込むシートの名前
     sheet_name = 'Hitlist_Item_24 month'
 
-
-    time.sleep(620)
+    await asyncio.sleep(300)
+    # time.sleep(300)
 
     ## POSデータ取得
     blob_client_in = blob_service_client.get_blob_client(container=container_name, blob=blob_name_in)
@@ -100,7 +109,3 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # POS売上ファイルを出力
             output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_sales_out)
             output_blob_client.upload_blob(selected_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True)
-
-    return func.HttpResponse(
-                status_code=200
-    )
