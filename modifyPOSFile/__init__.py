@@ -4,6 +4,7 @@ from azure.storage.blob import BlobServiceClient
 import pandas as pd
 import os
 import io
+import time
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
@@ -19,6 +20,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     blob_name_sales_out = "dashboard_KPI/modify/data/KPI_modify_POS_sales_file.csv"
     # 読み込むシートの名前
     sheet_name = 'Hitlist_Item_24 month'
+
+
+    time.sleep(620)
 
     ## POSデータ取得
     blob_client_in = blob_service_client.get_blob_client(container=container_name, blob=blob_name_in)
