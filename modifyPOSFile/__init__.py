@@ -1,4 +1,5 @@
 import logging
+import json
 import azure.functions as func
 from azure.storage.blob import BlobServiceClient
 import asyncio
@@ -8,12 +9,15 @@ import io
 import time
 
 async def main(req: func.HttpRequest) -> func.HttpResponse:
+    func_url = req.url
 
     # 非同期で処理を実行
     asyncio.create_task(long_running_task())
 
+    # 監視用URLとともに応答を返す
     return func.HttpResponse(
-        status_code=200
+        body=json.dumps({"status": "started", "monitor_url": func_url + "/status"}),
+        status_code=202
     )
 
 async def long_running_task():
