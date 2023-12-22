@@ -15,8 +15,8 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info(f"処理開始")
 
     # 非同期で処理を実行
-    await asyncio.create_task(long_running_task())
-
+    # asyncio.create_task(long_running_task())
+    long_running_task()
 
     logging.info(f"処理終了")
 
@@ -79,7 +79,8 @@ async def long_running_task():
             output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_master_out)
             output_blob_client.upload_blob(single_header_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True)
 
-        await asyncio.sleep(610)
+        # await asyncio.sleep(610)
+        time.sleep(610)
 
         # ヘッダーが2行のカラムに対する処理
         # まず、ヘッダーが2行ある部分が実際に存在するかチェック
