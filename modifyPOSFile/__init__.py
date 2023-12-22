@@ -14,6 +14,10 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
     # 非同期で処理を実行
     asyncio.create_task(long_running_task())
 
+    logging.getLogger("asyncio").setLevel(logging.INFO)
+
+    logging.info(f"処理開始")
+
     # 監視用URLとともに応答を返す
     return func.HttpResponse(
         body=json.dumps({"status": "started", "monitor_url": func_url + "/status"}),
@@ -34,7 +38,7 @@ async def long_running_task():
     # 読み込むシートの名前
     sheet_name = 'Hitlist_Item_24 month'
 
-    await asyncio.sleep(300)
+    # await asyncio.sleep(300)
     # time.sleep(300)
 
     ## POSデータ取得
