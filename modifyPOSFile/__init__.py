@@ -2,31 +2,12 @@ import logging
 import json
 import azure.functions as func
 from azure.storage.blob import BlobServiceClient
-import asyncio
 import pandas as pd
 import os
 import io
 import time
 
-async def main(req: func.HttpRequest) -> func.HttpResponse:
-    func_url = req.url
-    # logging.getLogger("asyncio").setLevel(logging.INFO)
-
-    logging.info(f"処理開始")
-
-    # 非同期で処理を実行
-    asyncio.create_task(long_running_task())
-    # long_running_task()
-
-    logging.info(f"処理終了")
-
-    # 監視用URLとともに応答を返す
-    return func.HttpResponse(
-        body=json.dumps({"status": "started", "monitor_url": func_url + "/status"}),
-        status_code=202
-    )
-
-async def long_running_task():
+def main(req: func.HttpRequest) -> func.HttpResponse:
     # 1.POSデータの読み込み
     ## BLOBへの接続
     connect_str = os.getenv("AzureWebJobsStorage")
@@ -79,9 +60,6 @@ async def long_running_task():
             output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_master_out)
             output_blob_client.upload_blob(single_header_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True)
 
-        # await asyncio.sleep(610)
-        time.sleep(610)
-
         # ヘッダーが2行のカラムに対する処理
         # まず、ヘッダーが2行ある部分が実際に存在するかチェック
         if df.shape[1] > double_header_start_column:
@@ -126,3 +104,7 @@ async def long_running_task():
             # POS売上ファイルを出力
             output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_sales_out)
             output_blob_client.upload_blob(selected_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True)
+
+    return func.HttpResponse(
+                status_code=200
+    )

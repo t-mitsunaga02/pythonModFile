@@ -8,9 +8,6 @@ azure-functions-durable>=1.2.4
 azure-storage-blob==12.8.0
 azure-identity
 pandas
-openpyxl
-openai==0.28.1
-AzureOpenAI
 
 requests
 beautifulsoup4
