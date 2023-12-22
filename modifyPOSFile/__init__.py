@@ -10,7 +10,7 @@ import time
 
 async def main(req: func.HttpRequest) -> func.HttpResponse:
     func_url = req.url
-    logging.getLogger("asyncio").setLevel(logging.INFO)
+    # logging.getLogger("asyncio").setLevel(logging.INFO)
 
     logging.info(f"処理開始")
 
