@@ -10,13 +10,14 @@ import time
 
 async def main(req: func.HttpRequest) -> func.HttpResponse:
     func_url = req.url
+    logging.getLogger("asyncio").setLevel(logging.INFO)
+
+    logging.info(f"処理開始")
 
     # 非同期で処理を実行
     asyncio.create_task(long_running_task())
 
-    logging.getLogger("asyncio").setLevel(logging.INFO)
-
-    logging.info(f"処理開始")
+    logging.info(f"処理終了")
 
     # 監視用URLとともに応答を返す
     return func.HttpResponse(
@@ -71,6 +72,8 @@ async def long_running_task():
             single_header_df = single_header_df.drop(0).reset_index(drop=True)  # 1行目を削除
             single_header_df = single_header_df.rename(columns={0: 'POS_ID'})
 
+            logging.info(f"POSマスタ出力:{blob_name_master_out}")
+
             # POSマスタを出力
             output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_master_out)
             output_blob_client.upload_blob(single_header_df.to_csv(index=False, encoding='utf_8'), blob_type="BlockBlob", overwrite=True)
@@ -113,6 +116,8 @@ async def long_running_task():
             for df in transformed_dfs[1:]:
                 forth_column = df[df.columns[3]]
                 selected_df = pd.concat([selected_df, forth_column], axis=1)
+
+            logging.info(f"POS売上出力:{blob_name_sales_out}")
 
             # POS売上ファイルを出力
             output_blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name_sales_out)
