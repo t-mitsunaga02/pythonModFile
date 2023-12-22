@@ -15,8 +15,8 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info(f"処理開始")
 
     # 非同期で処理を実行
-    # asyncio.create_task(long_running_task())
-    long_running_task()
+    asyncio.create_task(long_running_task())
+    # long_running_task()
 
     logging.info(f"処理終了")
 
