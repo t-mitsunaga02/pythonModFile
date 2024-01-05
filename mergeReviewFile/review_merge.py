@@ -14,7 +14,7 @@ def review_merge():
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
     ## BLOB入出力先の設定
     container_name = "scrapefile"
-    blob_name_in = "dashboard_motive/raw/"
+    blob_name_in = "dashboard_motive/"
 
     ## レビューデータ取得
     container_client = blob_service_client.get_container_client(container_name)
@@ -24,10 +24,11 @@ def review_merge():
     # CSVファイルを読み込んでマージ
     df_list = []
     for file_name in csv_files:
-        blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_name)
-        blob_data = blob_client.download_blob().readall() 
-        df = pd.read_csv(io.BytesIO(blob_data))
-        df_list.append(df)
+        if "/" not in file_name[len(blob_name_in):]:
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_name)
+            blob_data = blob_client.download_blob().readall() 
+            df = pd.read_csv(io.BytesIO(blob_data))
+            df_list.append(df)
 
     merged_df = pd.concat(df_list)
 
