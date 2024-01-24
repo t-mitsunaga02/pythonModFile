@@ -89,14 +89,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     ## データの成型
                     # マージしたデータから必要な列のみを選択（oldのカラムをベースにする）
                     # 特定のカラムを除外
-                    column_to_exclude = ['HUMIDIFIER FCT._y','MAX.TANKCAP.LTR_y','FirstActivityMonthly_y']
+                    column_to_exclude = ['HUMIDIFIER FCT._x','MAX.TANKCAP.LTR_x','FirstActivityMonthly_x']
                     merged_without_column = merged.drop(column_to_exclude, axis=1)
                     # カラムリネーム＆並び替え
-                    new_order_column = ['POS_ID', 'Item', 'BRAND', 'HUMIDIFIER FCT._x', 'TYPE AIRTREAT GC', 'APPLICABLE AREA', 'MAX.TANKCAP.LTR_x', 'FirstActivityMonthly_x']
+                    new_order_column = ['POS_ID', 'Item', 'BRAND', 'HUMIDIFIER FCT._y', 'TYPE AIRTREAT GC', 'APPLICABLE AREA', 'MAX.TANKCAP.LTR_y', 'FirstActivityMonthly_y']
                     remaining_columns = merged_without_column.columns[len(new_order_column):] # 並び替えるカラム以外はそのままの順番にしたい
                     new_order_column = new_order_column + remaining_columns.tolist() # 並び替えたカラム＋そのままのカラム
                     merged_new_order_column = merged_without_column[new_order_column]
-                    merged_new_order_column = merged_new_order_column.rename(columns={'HUMIDIFIER FCT._x': 'HUMIDIFIER FCT.', 'MAX.TANKCAP.LTR_x': 'MAX.TANKCAP.LTR', 'FirstActivityMonthly_x': 'FirstActivityMonthly'})
+                    merged_new_order_column = merged_new_order_column.rename(columns={'HUMIDIFIER FCT._y': 'HUMIDIFIER FCT.', 'MAX.TANKCAP.LTR_y': 'MAX.TANKCAP.LTR', 'FirstActivityMonthly_y': 'FirstActivityMonthly'})
                     merged_new_order_column['POS_ID'] = merged_new_order_column['POS_ID'].astype(int) # 初期の型がfloatのため
 
                     ## NewPOSMasterの生成
